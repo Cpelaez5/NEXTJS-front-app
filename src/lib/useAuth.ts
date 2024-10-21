@@ -40,11 +40,22 @@ export function useAuth() {
     }
   };
 
+  const registerUser  = async (data: { username: string; email: string; password: string }) => {
+    try {
+      const response = await api.register({ username: data.username, email: data.email, password: data.password });
+      console.log('**RESPUESTA:** ', response);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return { success: false, message: 'Error registering user' };
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem('token');
     setUser (null);
-    router.push('/login');
+    router.push('/auth/login');
   };
 
-  return { user, loading, login, logout };
+  return { user, loading, login, logout, registerUser };
 }
